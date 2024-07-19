@@ -2,14 +2,15 @@
 name = "spdcalc-py"
 version = "0.1.0"
 edition = "2021"
+private = true
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
-name = "spdcalc_py"
+name = "spdcalc"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = { version = "0.22.0", features = ["num-complex"] }
+pyo3 = { version = "0.22.2", features = ["num-complex"] }
 serde_json = "1.0"
 serde_yaml = "0.8.0"
 spdcalc = { path = "../spdcalc" }

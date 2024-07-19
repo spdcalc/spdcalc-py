@@ -5,6 +5,10 @@ requirements_file := "py-examples/requirements.txt"
 # Default task
 default: run_example
 
+clean:
+  rm -rf {{pyenv_name}}
+  echo "Virtual environment removed."
+
 # Check if pyenv is installed
 check_virtualenv_installed:
   @if ! command -v virtualenv &> /dev/null; then \
