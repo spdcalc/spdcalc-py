@@ -16,6 +16,7 @@ spdc.try_as_optimum()
 
 print(spdc.to_yaml())
 
+# tests
 print(get_jsi(spdc, spdc.optimum_range(100).to_wavelength_space()))
 print(spdc.optimum_range(100))
 print(get_jsi.__doc__)

@@ -1,6 +1,7 @@
 use crate::*;
 use ::spdcalc::dim::{f64prefixes::*, ucum::*};
 use ::spdcalc::SPDCConfig;
+use pyo3::exceptions::PyValueError;
 use spdcalc::utils::{from_celsius_to_kelvin, from_kelvin_to_celsius};
 use spdcalc::{Frequency, PeriodicPoling};
 
@@ -11,8 +12,8 @@ pub(crate) struct SPDC(pub(crate) ::spdcalc::SPDC);
 #[pymethods]
 impl SPDC {
   // allows for nice print statements in python
-  fn __repr__(slf: PyRef<'_, Self>) -> pyo3::PyResult<String> {
-    Ok(format!("{}", slf.to_yaml()?))
+  fn __repr__(&self) -> pyo3::PyResult<String> {
+    Ok(format!("{}", self.to_yaml()?))
   }
 
   #[staticmethod]
@@ -21,15 +22,17 @@ impl SPDC {
   }
 
   #[staticmethod]
-  pub fn from_yaml(yaml: &str) -> Result<Self, PySpdcError> {
-    let config: SPDCConfig = serde_yaml::from_str(&yaml).unwrap();
-    Ok(SPDC(config.try_into()?))
+  pub fn from_yaml(yaml: &str) -> Result<Self, PyErr> {
+    let spdc: ::spdcalc::SPDC =
+      serde_yaml::from_str(&yaml).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    Ok(Self(spdc))
   }
 
   #[staticmethod]
-  pub fn from_json(json: &str) -> Result<Self, PySpdcError> {
-    let config: SPDCConfig = serde_json::from_str(&json).unwrap();
-    Ok(SPDC(config.try_into()?))
+  pub fn from_json(json: &str) -> Result<Self, PyErr> {
+    let spdc: ::spdcalc::SPDC =
+      serde_json::from_str(&json).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    Ok(Self(spdc))
   }
 
   pub fn to_yaml(&self) -> Result<String, PySpdcError> {
@@ -432,16 +435,15 @@ impl SPDC {
     (dk.x, dk.y, dk.z)
   }
 
-  #[pyo3(signature = (si_range, integration_steps = None))]
+  #[pyo3(signature = (si_range, integrator))]
   pub fn counts_coincidences(
     &self,
     si_range: SIRange,
-    integration_steps: Option<usize>,
+    integrator: &crate::Integrator,
   ) -> PyResult<f64> {
-    let counts = self.0.counts_coincidences(
-      ::spdcalc::FrequencySpace::try_from(si_range)?,
-      integration_steps,
-    );
+    let counts = self
+      .0
+      .counts_coincidences(::spdcalc::FrequencySpace::try_from(si_range)?, integrator.0);
     Ok(*(counts * S))
   }
 }
