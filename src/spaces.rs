@@ -128,6 +128,11 @@ impl FrequencySpace {
     SumDiffFrequencySpace(self.0.into())
   }
 
+  pub fn set_resolution(mut slf: PyRefMut<'_, Self>, steps: usize) -> PyRefMut<'_, Self> {
+    slf.0.set_resolution(steps);
+    slf
+  }
+
   pub fn __repr__(&self) -> String {
     let steps = self.0.steps();
     format!(
@@ -181,6 +186,11 @@ impl WavelengthSpace {
     SumDiffFrequencySpace(self.0.into())
   }
 
+  pub fn set_resolution(mut slf: PyRefMut<'_, Self>, steps: usize) -> PyRefMut<'_, Self> {
+    slf.0.set_resolution(steps);
+    slf
+  }
+
   pub fn __repr__(&self) -> String {
     let steps = self.0.steps();
     format!(
@@ -232,6 +242,11 @@ impl SumDiffFrequencySpace {
 
   pub fn to_wavelength_space(&self) -> WavelengthSpace {
     WavelengthSpace(self.0.into())
+  }
+
+  pub fn set_resolution(mut slf: PyRefMut<'_, Self>, steps: usize) -> PyRefMut<'_, Self> {
+    slf.0.set_resolution(steps);
+    slf
   }
 
   pub fn __repr__(&self) -> String {

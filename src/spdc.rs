@@ -1,9 +1,14 @@
+use std::collections::HashMap;
+
 use crate::*;
 use ::spdcalc::dim::{f64prefixes::*, ucum::*};
 use ::spdcalc::SPDCConfig;
 use pyo3::exceptions::PyValueError;
+use pyo3::types::PyDict;
 use spdcalc::utils::{from_celsius_to_kelvin, from_kelvin_to_celsius};
-use spdcalc::{Frequency, PeriodicPoling};
+use spdcalc::{Frequency, PeriodicPoling, Time};
+
+pub(crate) type Visibility = HashMap<String, f64>;
 
 #[pyclass]
 #[derive(Debug, Clone)]
@@ -366,13 +371,21 @@ impl SPDC {
   }
 
   #[getter]
-  pub fn apodization(&self) {
-    todo!("Apodization not done yet")
+  pub fn apodization<'py>(&self, py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+    apodization_to_py_dict(py, &self.0.pp.apodization())
   }
 
   #[setter]
-  pub fn set_apodization(&mut self, value: PyObject) {
-    todo!("Apodization not done yet")
+  pub fn set_apodization(&mut self, value: Option<&Bound<'_, PyDict>>) -> PyResult<()> {
+    let apo = if let Some(dict) = value {
+      apodization_from_py_dict(dict)?
+    } else {
+      spdcalc::Apodization::default()
+    };
+
+    self.0.pp.set_apodization(apo);
+
+    Ok(())
   }
 
   // deff
@@ -435,15 +448,136 @@ impl SPDC {
     (dk.x, dk.y, dk.z)
   }
 
-  #[pyo3(signature = (si_range, integrator))]
+  #[pyo3(signature = (si_range, integrator = None))]
   pub fn counts_coincidences(
     &self,
     si_range: SIRange,
-    integrator: &crate::Integrator,
+    integrator: Option<crate::Integrator>,
   ) -> PyResult<f64> {
-    let counts = self
-      .0
-      .counts_coincidences(::spdcalc::FrequencySpace::try_from(si_range)?, integrator.0);
+    let counts = self.0.counts_coincidences(
+      ::spdcalc::FrequencySpace::try_from(si_range)?,
+      integrator.unwrap_or_default().0,
+    );
     Ok(*(counts * S))
+  }
+
+  #[pyo3(signature = (si_range, integrator = None))]
+  pub fn counts_singles_signal(
+    &self,
+    si_range: SIRange,
+    integrator: Option<crate::Integrator>,
+  ) -> PyResult<f64> {
+    let counts = self.0.counts_singles_signal(
+      ::spdcalc::FrequencySpace::try_from(si_range)?,
+      integrator.unwrap_or_default().0,
+    );
+    Ok(*(counts * S))
+  }
+
+  #[pyo3(signature = (si_range, integrator = None))]
+  pub fn counts_singles_idler(
+    &self,
+    si_range: SIRange,
+    integrator: Option<crate::Integrator>,
+  ) -> PyResult<f64> {
+    let counts = self.0.counts_singles_idler(
+      ::spdcalc::FrequencySpace::try_from(si_range)?,
+      integrator.unwrap_or_default().0,
+    );
+    Ok(*(counts * S))
+  }
+
+  #[pyo3(signature = (si_range, integrator = None))]
+  pub fn efficiencies(
+    &self,
+    si_range: SIRange,
+    integrator: Option<crate::Integrator>,
+  ) -> PyResult<HashMap<String, f64>> {
+    let effs: HashMap<String, f64> = self
+      .0
+      .efficiencies(
+        ::spdcalc::FrequencySpace::try_from(si_range)?,
+        integrator.unwrap_or_default().0,
+      )
+      .into();
+
+    Ok(effs)
+  }
+
+  #[pyo3(signature = (si_range, integrator = None))]
+  pub fn hom_visibility(
+    &self,
+    si_range: SIRange,
+    integrator: Option<crate::Integrator>,
+  ) -> PyResult<Visibility> {
+    let (time, v): (Time, f64) = self.0.hom_visibility(
+      ::spdcalc::FrequencySpace::try_from(si_range)?,
+      integrator.unwrap_or_default().0,
+    );
+
+    let mut vis = HashMap::new();
+    vis.insert("time".to_string(), *(time / S));
+    vis.insert("visibility".to_string(), v);
+    Ok(vis)
+  }
+
+  #[pyo3(signature = (time_delays, si_range, integrator = None))]
+  pub fn hom_rate_series(
+    &self,
+    time_delays: Vec<f64>,
+    si_range: SIRange,
+    integrator: Option<crate::Integrator>,
+  ) -> PyResult<Vec<f64>> {
+    let time_delays: Vec<_> = time_delays.into_iter().map(|t| t * S).collect();
+    let rates = self.0.hom_rate_series(
+      time_delays,
+      ::spdcalc::FrequencySpace::try_from(si_range)?,
+      integrator.unwrap_or_default().0,
+    );
+    Ok(rates)
+  }
+
+  #[pyo3(signature = (si_range, integrator = None))]
+  pub fn hom_two_source_visibilities(
+    &self,
+    si_range: SIRange,
+    integrator: Option<crate::Integrator>,
+  ) -> PyResult<HashMap<String, Visibility>> {
+    let vis: HashMap<String, (Time, f64)> = self
+      .0
+      .hom_two_source_visibilities(
+        ::spdcalc::FrequencySpace::try_from(si_range)?,
+        integrator.unwrap_or_default().0,
+      )
+      .into();
+    let vis: HashMap<String, Visibility> = vis
+      .into_iter()
+      .map(|(k, (time, v))| {
+        let mut vis = HashMap::new();
+        vis.insert("time".to_string(), *(time / S));
+        vis.insert("visibility".to_string(), v);
+        (k, vis)
+      })
+      .collect();
+    Ok(vis)
+  }
+
+  #[pyo3(signature = (time_delays, si_range, integrator = None))]
+  pub fn hom_two_source_rate_series(
+    &self,
+    time_delays: Vec<f64>,
+    si_range: SIRange,
+    integrator: Option<crate::Integrator>,
+  ) -> PyResult<HashMap<String, Vec<f64>>> {
+    let time_delays: Vec<_> = time_delays.into_iter().map(|t| t * S).collect();
+    let rates: HashMap<String, Vec<f64>> = self
+      .0
+      .hom_two_source_rate_series(
+        time_delays,
+        ::spdcalc::FrequencySpace::try_from(si_range)?,
+        integrator.unwrap_or_default().0,
+      )
+      .into();
+    Ok(rates)
   }
 }

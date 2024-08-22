@@ -7,6 +7,8 @@ mod integrator;
 use integrator::Integrator;
 mod spaces;
 use spaces::*;
+mod apodization;
+use apodization::*;
 
 /// Get the joint spectral intensity of the SPDC within a given range
 ///
