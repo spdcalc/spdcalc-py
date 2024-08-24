@@ -8,7 +8,11 @@ def get_spdc():
         config = f.read()
     return SPDC.from_yaml(config)
 
+help(SPDC)
+# print(get_all_crystal_meta())
 spdc = get_spdc()
+# spdc.crystal_kind = 'BBO_1'
+# print(get_crystal_meta(spdc.crystal_kind))
 
 spdc.apodization = {
   'kind': 'gaussian',
@@ -17,8 +21,9 @@ spdc.apodization = {
   }
 }
 print(spdc)
+print(spdc.signal_waist_um)
 
-spdc.try_as_optimum()
+spdc.to_optimum()
 
 print(spdc.to_yaml())
 

@@ -12,4 +12,4 @@ crate-type = ["cdylib"]
 pyo3 = { version = "0.22.2", features = ["num-complex"] }
 serde_json = "1.0"
 serde_yaml = "0.8.0"
-spdcalc = { path = "../spdcalc" }
+spdcalc = { path = "../spdcalc", features = ["pyo3"] }

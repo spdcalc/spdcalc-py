@@ -160,6 +160,7 @@ pub(crate) struct WavelengthSpace(pub(crate) ::spdcalc::WavelengthSpace);
 #[pymethods]
 impl WavelengthSpace {
   #[new]
+  /// Create a square area in wavelength space, in meters.
   pub fn new(xsteps: (f64, f64, usize), ysteps: (f64, f64, usize)) -> Self {
     let (xs, xf, xn) = xsteps;
     let (ys, yf, yn) = ysteps;

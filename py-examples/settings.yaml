@@ -14,7 +14,7 @@ pump:
 signal:
   wavelength_nm: 1550
   phi_deg: 0
-  theta_external_deg: 0
+  theta_external_deg: 1
   waist_um: 100
   waist_position_um: auto
 idler: auto
