@@ -558,6 +558,19 @@ impl SPDC {
     (dk.x, dk.y, dk.z)
   }
 
+  /// Calculate the coincidence counts
+  ///
+  /// Parameters
+  /// ----------
+  /// si_range : SIRange
+  ///     Range of signal and idler frequencies
+  /// integrator : Integrator, optional
+  ///     The integrator to use, which defaults to a simple Simpson's rule
+  ///
+  /// Returns
+  /// -------
+  /// float
+  ///     The coincidence counts
   #[pyo3(signature = (si_range, integrator = None))]
   pub fn counts_coincidences(
     &self,
@@ -571,6 +584,19 @@ impl SPDC {
     Ok(*(counts * S))
   }
 
+  /// Calculate the singles rate for the signal
+  ///
+  /// Parameters
+  /// ----------
+  /// si_range : SIRange
+  ///     Range of signal and idler frequencies
+  /// integrator : Integrator, optional
+  ///     The integrator to use, which defaults to a simple Simpson's rule
+  ///
+  /// Returns
+  /// -------
+  /// float
+  ///     The singles rate for the signal
   #[pyo3(signature = (si_range, integrator = None))]
   pub fn counts_singles_signal(
     &self,
@@ -584,6 +610,19 @@ impl SPDC {
     Ok(*(counts * S))
   }
 
+  /// Calculate the singles rate for the idler
+  ///
+  /// Parameters
+  /// ----------
+  /// si_range : SIRange
+  ///     Range of signal and idler frequencies
+  /// integrator : Integrator, optional
+  ///     The integrator to use, which defaults to a simple Simpson's rule
+  ///
+  /// Returns
+  /// -------
+  /// float
+  ///     The singles rate for the idler
   #[pyo3(signature = (si_range, integrator = None))]
   pub fn counts_singles_idler(
     &self,
@@ -597,6 +636,19 @@ impl SPDC {
     Ok(*(counts * S))
   }
 
+  /// Calculate the efficiencies (symmetric, signal, idler)
+  ///
+  /// Parameters
+  /// ----------
+  /// si_range : SIRange
+  ///     Range of signal and idler frequencies
+  /// integrator : Integrator, optional
+  ///     The integrator to use, which defaults to a simple Simpson's rule
+  ///
+  /// Returns
+  /// -------
+  /// dict
+  ///     The efficiencies (symmetric, signal, idler), and rates (coincidences, singles signal, singles idler)
   #[pyo3(signature = (si_range, integrator = None))]
   pub fn efficiencies(
     &self,
@@ -614,6 +666,19 @@ impl SPDC {
     Ok(effs)
   }
 
+  /// Calculate the Hong-Ou-Mandel visibility
+  ///
+  /// Parameters
+  /// ----------
+  /// si_range : SIRange
+  ///     Range of signal and idler frequencies
+  /// integrator : Integrator, optional
+  ///     The integrator to use, which defaults to a simple Simpson's rule
+  ///
+  /// Returns
+  /// -------
+  /// dict
+  ///     The Hong-Ou-Mandel visibility
   #[pyo3(signature = (si_range, integrator = None))]
   pub fn hom_visibility(
     &self,
@@ -631,6 +696,21 @@ impl SPDC {
     Ok(vis)
   }
 
+  /// Calculate the Hong-Ou-Mandel rate for different time delays
+  ///
+  /// Parameters
+  /// ----------
+  /// time_delays : list of floats
+  ///     The time delays in seconds
+  /// si_range : SIRange
+  ///     Range of signal and idler frequencies
+  /// integrator : Integrator, optional
+  ///     The integrator to use, which defaults to a simple Simpson's rule
+  ///
+  /// Returns
+  /// -------
+  /// list of floats
+  ///     The Hong-Ou-Mandel rate for different time delays
   #[pyo3(signature = (time_delays, si_range, integrator = None))]
   pub fn hom_rate_series(
     &self,
@@ -647,6 +727,19 @@ impl SPDC {
     Ok(rates)
   }
 
+  /// Calculate the two-source Hong-Ou-Mandel visibilities
+  ///
+  /// Parameters
+  /// ----------
+  /// si_range : SIRange
+  ///     Range of signal and idler frequencies
+  /// integrator : Integrator, optional
+  ///     The integrator to use, which defaults to a simple Simpson's rule
+  ///
+  /// Returns
+  /// -------
+  /// dict
+  ///     The two-source Hong-Ou-Mandel visibilities
   #[pyo3(signature = (si_range, integrator = None))]
   pub fn hom_two_source_visibilities(
     &self,
@@ -672,6 +765,21 @@ impl SPDC {
     Ok(vis)
   }
 
+  /// Calculate the two-source Hong-Ou-Mandel rate series
+  ///
+  /// Parameters
+  /// ----------
+  /// time_delays : list of floats
+  ///     The time delays in seconds
+  /// si_range : SIRange
+  ///     Range of signal and idler frequencies
+  /// integrator : Integrator, optional
+  ///     The integrator to use, which defaults to a simple Simpson's rule
+  ///
+  /// Returns
+  /// -------
+  /// dict
+  ///     The two-source Hong-Ou-Mandel rate series
   #[pyo3(signature = (time_delays, si_range, integrator = None))]
   pub fn hom_two_source_rate_series(
     &self,
@@ -691,6 +799,17 @@ impl SPDC {
     Ok(rates)
   }
 
+  /// Calculate the joint spectrum
+  ///
+  /// Parameters
+  /// ----------
+  /// integrator : Integrator, optional
+  ///     The integrator to use, which defaults to a simple Simpson's rule
+  ///
+  /// Returns
+  /// -------
+  /// JointSpectrum
+  ///     The joint spectrum
   #[pyo3(signature = (integrator = None))]
   pub fn joint_spectrum(&self, integrator: Option<Integrator>) -> JointSpectrum {
     self

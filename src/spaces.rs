@@ -95,12 +95,26 @@ impl Iterator for SIIterator {
   }
 }
 
+/// Represents a range of signal-idler frequencies
 #[pyclass]
 #[derive(Debug, Clone)]
 pub(crate) struct FrequencySpace(pub(crate) ::spdcalc::FrequencySpace);
 
 #[pymethods]
 impl FrequencySpace {
+  /// Create a new FrequencySpace
+  ///
+  /// Parameters
+  /// ----------
+  /// xsteps : tuple (start, end, num_steps)
+  ///     X-axis frequency range and number of steps in Hz
+  /// ysteps : tuple (start, end, num_steps)
+  ///     Y-axis frequency range and number of steps in Hz
+  ///
+  /// Returns
+  /// -------
+  /// FrequencySpace
+  ///     New FrequencySpace object
   #[new]
   pub fn new(xsteps: (f64, f64, usize), ysteps: (f64, f64, usize)) -> Self {
     let (xs, xf, xn) = xsteps;
@@ -110,29 +124,80 @@ impl FrequencySpace {
     Self(Steps2D(xsteps, ysteps).into())
   }
 
+  /// Convert from WavelengthSpace to FrequencySpace
+  ///
+  /// Parameters
+  /// ----------
+  /// ws : WavelengthSpace
+  ///     The WavelengthSpace to convert
+  ///
+  /// Returns
+  /// -------
+  /// FrequencySpace
+  ///     Converted FrequencySpace object
   #[staticmethod]
   pub fn from_wavelength_space(ws: &WavelengthSpace) -> Self {
     Self(ws.0.into())
   }
 
+  /// Convert to WavelengthSpace
+  ///
+  /// Returns
+  /// -------
+  /// WavelengthSpace
+  ///     Converted WavelengthSpace object
   pub fn to_wavelength_space(&self) -> WavelengthSpace {
     WavelengthSpace(self.0.into())
   }
 
+  /// Convert from SumDiffFrequencySpace to FrequencySpace
+  ///
+  /// Parameters
+  /// ----------
+  /// sdfs : SumDiffFrequencySpace
+  ///     The SumDiffFrequencySpace to convert
+  ///
+  /// Returns
+  /// -------
+  /// FrequencySpace
+  ///     Converted FrequencySpace object
   #[staticmethod]
   pub fn from_sum_diff_frequency_space(sdfs: &SumDiffFrequencySpace) -> Self {
     Self(sdfs.0.into())
   }
 
+  /// Convert to SumDiffFrequencySpace
+  ///
+  /// Returns
+  /// -------
+  /// SumDiffFrequencySpace
+  ///     Converted SumDiffFrequencySpace object
   pub fn to_sum_diff_frequency_space(&self) -> SumDiffFrequencySpace {
     SumDiffFrequencySpace(self.0.into())
   }
 
+  /// Set the resolution (number of steps) for both axes
+  ///
+  /// Parameters
+  /// ----------
+  /// steps : int
+  ///     The number of steps to set for both axes
+  ///
+  /// Returns
+  /// -------
+  /// FrequencySpace
+  ///     Updated FrequencySpace object
   pub fn set_resolution(mut slf: PyRefMut<'_, Self>, steps: usize) -> PyRefMut<'_, Self> {
     slf.0.set_resolution(steps);
     slf
   }
 
+  /// String representation of FrequencySpace
+  ///
+  /// Returns
+  /// -------
+  /// str
+  ///     String representation of the FrequencySpace
   pub fn __repr__(&self) -> String {
     let steps = self.0.steps();
     format!(
@@ -153,14 +218,27 @@ impl From<::spdcalc::FrequencySpace> for FrequencySpace {
   }
 }
 
+/// Represents a range of signal-idler wavelengths
 #[pyclass]
 #[derive(Debug, Clone)]
 pub(crate) struct WavelengthSpace(pub(crate) ::spdcalc::WavelengthSpace);
 
 #[pymethods]
 impl WavelengthSpace {
+  /// Create a new WavelengthSpace
+  ///
+  /// Parameters
+  /// ----------
+  /// xsteps : tuple (start, end, num_steps)
+  ///     X-axis wavelength range and number of steps in meters
+  /// ysteps : tuple (start, end, num_steps)
+  ///     Y-axis wavelength range and number of steps in meters
+  ///
+  /// Returns
+  /// -------
+  /// WavelengthSpace
+  ///     New WavelengthSpace object
   #[new]
-  /// Create a square area in wavelength space, in meters.
   pub fn new(xsteps: (f64, f64, usize), ysteps: (f64, f64, usize)) -> Self {
     let (xs, xf, xn) = xsteps;
     let (ys, yf, yn) = ysteps;
@@ -169,29 +247,80 @@ impl WavelengthSpace {
     Self(Steps2D(xsteps, ysteps).into())
   }
 
+  /// Convert from FrequencySpace to WavelengthSpace
+  ///
+  /// Parameters
+  /// ----------
+  /// fs : FrequencySpace
+  ///     The FrequencySpace to convert
+  ///
+  /// Returns
+  /// -------
+  /// WavelengthSpace
+  ///     Converted WavelengthSpace object
   #[staticmethod]
   pub fn from_frequency_space(fs: &FrequencySpace) -> Self {
     Self(fs.0.into())
   }
 
+  /// Convert to FrequencySpace
+  ///
+  /// Returns
+  /// -------
+  /// FrequencySpace
+  ///     Converted FrequencySpace object
   pub fn to_frequency_space(&self) -> FrequencySpace {
     FrequencySpace(self.0.into())
   }
 
+  /// Convert from SumDiffFrequencySpace to WavelengthSpace
+  ///
+  /// Parameters
+  /// ----------
+  /// sdfs : SumDiffFrequencySpace
+  ///     The SumDiffFrequencySpace to convert
+  ///
+  /// Returns
+  /// -------
+  /// WavelengthSpace
+  ///     Converted WavelengthSpace object
   #[staticmethod]
   pub fn from_sum_diff_frequency_space(sdfs: &SumDiffFrequencySpace) -> Self {
     Self(sdfs.0.into())
   }
 
+  /// Convert to SumDiffFrequencySpace
+  ///
+  /// Returns
+  /// -------
+  /// SumDiffFrequencySpace
+  ///     Converted SumDiffFrequencySpace object
   pub fn to_sum_diff_frequency_space(&self) -> SumDiffFrequencySpace {
     SumDiffFrequencySpace(self.0.into())
   }
 
+  /// Set the resolution (number of steps) for both axes
+  ///
+  /// Parameters
+  /// ----------
+  /// steps : int
+  ///     The number of steps to set for both axes
+  ///
+  /// Returns
+  /// -------
+  /// WavelengthSpace
+  ///     Updated WavelengthSpace object
   pub fn set_resolution(mut slf: PyRefMut<'_, Self>, steps: usize) -> PyRefMut<'_, Self> {
     slf.0.set_resolution(steps);
     slf
   }
 
+  /// String representation of WavelengthSpace
+  ///
+  /// Returns
+  /// -------
+  /// str
+  ///     String representation of the WavelengthSpace
   pub fn __repr__(&self) -> String {
     let steps = self.0.steps();
     format!(
@@ -212,12 +341,28 @@ impl From<::spdcalc::WavelengthSpace> for WavelengthSpace {
   }
 }
 
+/// Represents a range of signal-idler frequencies such that
+/// one axis is the sum of two frequencies (divided by 2) and the other axis
+/// is the difference of two frequencies (divided by 2)
 #[pyclass]
 #[derive(Debug, Clone)]
 pub(crate) struct SumDiffFrequencySpace(pub(crate) ::spdcalc::SumDiffFrequencySpace);
 
 #[pymethods]
 impl SumDiffFrequencySpace {
+  /// Create a new SumDiffFrequencySpace
+  ///
+  /// Parameters
+  /// ----------
+  /// xsteps : tuple (start, end, num_steps)
+  ///     X-axis frequency range and number of steps in Hz
+  /// ysteps : tuple (start, end, num_steps)
+  ///     Y-axis frequency range and number of steps in Hz
+  ///
+  /// Returns
+  /// -------
+  /// SumDiffFrequencySpace
+  ///     New SumDiffFrequencySpace object
   #[new]
   pub fn new(xsteps: (f64, f64, usize), ysteps: (f64, f64, usize)) -> Self {
     let (xs, xf, xn) = xsteps;
@@ -227,29 +372,80 @@ impl SumDiffFrequencySpace {
     Self(Steps2D(xsteps, ysteps).into())
   }
 
+  /// Convert from FrequencySpace to SumDiffFrequencySpace
+  ///
+  /// Parameters
+  /// ----------
+  /// fs : FrequencySpace
+  ///     The FrequencySpace to convert
+  ///
+  /// Returns
+  /// -------
+  /// SumDiffFrequencySpace
+  ///     Converted SumDiffFrequencySpace object
   #[staticmethod]
   pub fn from_frequency_space(fs: &FrequencySpace) -> Self {
     Self(fs.0.into())
   }
 
+  /// Convert to FrequencySpace
+  ///
+  /// Returns
+  /// -------
+  /// FrequencySpace
+  ///     Converted FrequencySpace object
   pub fn to_frequency_space(&self) -> FrequencySpace {
     FrequencySpace(self.0.into())
   }
 
+  /// Convert from WavelengthSpace to SumDiffFrequencySpace
+  ///
+  /// Parameters
+  /// ----------
+  /// ws : WavelengthSpace
+  ///     The WavelengthSpace to convert
+  ///
+  /// Returns
+  /// -------
+  /// SumDiffFrequencySpace
+  ///     Converted SumDiffFrequencySpace object
   #[staticmethod]
   pub fn from_wavelength_space(ws: &WavelengthSpace) -> Self {
     Self(ws.0.into())
   }
 
+  /// Convert to WavelengthSpace
+  ///
+  /// Returns
+  /// -------
+  /// WavelengthSpace
+  ///     Converted WavelengthSpace object
   pub fn to_wavelength_space(&self) -> WavelengthSpace {
     WavelengthSpace(self.0.into())
   }
 
+  /// Set the resolution (number of steps) for both axes
+  ///
+  /// Parameters
+  /// ----------
+  /// steps : int
+  ///     The number of steps to set for both axes
+  ///
+  /// Returns
+  /// -------
+  /// SumDiffFrequencySpace
+  ///     Updated SumDiffFrequencySpace object
   pub fn set_resolution(mut slf: PyRefMut<'_, Self>, steps: usize) -> PyRefMut<'_, Self> {
     slf.0.set_resolution(steps);
     slf
   }
 
+  /// String representation of SumDiffFrequencySpace
+  ///
+  /// Returns
+  /// -------
+  /// str
+  ///     String representation of the SumDiffFrequencySpace
   pub fn __repr__(&self) -> String {
     let steps = self.0.steps();
     format!(
@@ -270,12 +466,24 @@ impl From<::spdcalc::SumDiffFrequencySpace> for SumDiffFrequencySpace {
   }
 }
 
+/// Represents an array of signal-idler frequencies
 #[pyclass]
 #[derive(Debug, Clone)]
 pub(crate) struct FrequencyArray(pub(crate) ::spdcalc::SignalIdlerFrequencyArray);
 
 #[pymethods]
 impl FrequencyArray {
+  /// Create a new FrequencyArray
+  ///
+  /// Parameters
+  /// ----------
+  /// frequencies : list of float
+  ///     List of frequencies in Hz
+  ///
+  /// Returns
+  /// -------
+  /// FrequencyArray
+  ///     New FrequencyArray object
   #[new]
   pub fn new(frequencies: Vec<f64>) -> Self {
     Self(::spdcalc::SignalIdlerFrequencyArray(
@@ -283,6 +491,12 @@ impl FrequencyArray {
     ))
   }
 
+  /// String representation of FrequencyArray
+  ///
+  /// Returns
+  /// -------
+  /// str
+  ///     String representation of the FrequencyArray
   pub fn __repr__(&self) -> String {
     format!("{:?}", self.0)
   }
@@ -294,12 +508,24 @@ impl From<::spdcalc::SignalIdlerFrequencyArray> for FrequencyArray {
   }
 }
 
+/// Represents an array of signal-idler wavelengths
 #[pyclass]
 #[derive(Debug, Clone)]
 pub(crate) struct WavelengthArray(pub(crate) ::spdcalc::SignalIdlerWavelengthArray);
 
 #[pymethods]
 impl WavelengthArray {
+  /// Create a new WavelengthArray
+  ///
+  /// Parameters
+  /// ----------
+  /// wavelengths : list of float
+  ///     List of wavelengths in meters
+  ///
+  /// Returns
+  /// -------
+  /// WavelengthArray
+  ///     New WavelengthArray object
   #[new]
   pub fn new(wavelengths: Vec<f64>) -> Self {
     Self(::spdcalc::SignalIdlerWavelengthArray(
