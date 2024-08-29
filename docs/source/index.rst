@@ -5,12 +5,15 @@
 
 Welcome to spdcalc-py's documentation!
 ======================================
-.. automodule:: spdcalc
-   :members:
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+   spdcalc
+
+.. automodule:: spdcalc
+   :members:
 
 
 
