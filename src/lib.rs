@@ -222,6 +222,12 @@ fn pump_spectral_amplitude(omega_rad_per_s: f64, spdc: SPDC) -> f64 {
 fn spdcalc_py(m: &Bound<'_, PyModule>) -> PyResult<()> {
   m.add_class::<SPDC>()?;
   m.add_class::<Integrator>()?;
+  m.add_class::<JointSpectrum>()?;
+  m.add_class::<FrequencySpace>()?;
+  m.add_class::<WavelengthSpace>()?;
+  m.add_class::<SumDiffFrequencySpace>()?;
+  m.add_class::<FrequencyArray>()?;
+  m.add_class::<WavelengthArray>()?;
 
   m.add_function(wrap_pyfunction!(get_jsi, m)?)?;
   m.add_function(wrap_pyfunction!(get_all_crystal_meta, m)?)?;
