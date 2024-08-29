@@ -1,4 +1,5 @@
 use super::*;
+use pyo3::exceptions::PyRuntimeError;
 use spdcalc::dim::ucum::*;
 use spdcalc::Complex;
 
@@ -243,6 +244,22 @@ impl JointSpectrum {
   ///     Vector of normalized singles JSI values
   pub fn jsi_singles_normalized_range(&self, si_range: SIRange) -> Vec<f64> {
     self.0.jsi_singles_normalized_range(si_range)
+  }
+
+  /// Calculate the Schmidt number at specific frequencies
+  ///
+  /// Parameters
+  /// ----------
+  /// si_range : SIRange
+  ///     Range of signal and idler frequencies
+  ///
+  /// Returns
+  /// -------
+  /// float
+  ///     The Schmidt number
+  pub fn schmidt_number(&self, si_range: SIRange) -> PyResult<f64> {
+    let fs = ::spdcalc::FrequencySpace::try_from(si_range)?;
+    Ok(self.0.schmidt_number(fs).map_err(|e| PyRuntimeError::new_err(e.to_string()))?)
   }
 }
 

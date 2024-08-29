@@ -1,5 +1,5 @@
 use crate::*;
-use pyo3::exceptions::PyValueError;
+use pyo3::exceptions::PyRuntimeError;
 
 pub(crate) struct PySpdcError(pub(crate) ::spdcalc::SPDCError);
 
@@ -11,7 +11,7 @@ impl From<::spdcalc::SPDCError> for PySpdcError {
 
 impl From<PySpdcError> for PyErr {
   fn from(err: PySpdcError) -> Self {
-    PyValueError::new_err(err.0.to_string())
+    PyRuntimeError::new_err(err.0.to_string())
   }
 }
 
