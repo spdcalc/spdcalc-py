@@ -8,7 +8,7 @@ def get_spdc():
         config = f.read()
     return SPDC.from_yaml(config)
 
-help(SPDC)
+# help(SPDC)
 # print(get_all_crystal_meta())
 spdc = get_spdc()
 # spdc.crystal_kind = 'BBO_1'
