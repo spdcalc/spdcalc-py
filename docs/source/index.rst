@@ -5,6 +5,8 @@
 
 Welcome to spdcalc-py's documentation!
 ======================================
+.. automodule:: spdcalc
+   :members:
 
 .. toctree::
    :maxdepth: 2
