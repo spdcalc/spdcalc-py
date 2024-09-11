@@ -23,6 +23,11 @@ spdc.apodization = {
 print(spdc)
 print(spdc.signal_waist_um)
 
+spdc.crystal_kind = """
+no = sqrt(2.7359+0.01878/(l^2-0.01822)-0.01354*l^2) - 9.3e-6 * T
+ne = sqrt(2.3753+0.01224/(l^2-0.01667)-0.01516*l^2) - 16.6e-6 * T
+"""
+
 spdc.to_optimum()
 
 print(spdc.to_yaml())

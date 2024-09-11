@@ -68,7 +68,7 @@ impl SPDC {
   /// The values can be seen by looking at the `id` feilds from `get_all_crystal_meta()`
   #[getter]
   pub fn crystal_kind(&self) -> CrystalType {
-    self.0.crystal_setup.crystal
+    self.0.crystal_setup.crystal.clone()
   }
 
   #[setter]
