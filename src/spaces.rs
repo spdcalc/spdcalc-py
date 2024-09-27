@@ -1,5 +1,6 @@
 use crate::*;
 use pyo3::exceptions::PyValueError;
+use rayon::prelude::*;
 use spdcalc::{
   dim::ucum::{HZ, M, RAD},
   utils::Steps2D,
@@ -82,6 +83,27 @@ impl IntoSignalIdlerIterator for SIRange {
       SIRange::WavelengthArray(wa) => SIIterator(Box::new(wa.0.into_signal_idler_iterator())),
       SIRange::SumDiffFrequency(sdfs) => SIIterator(Box::new(sdfs.0.into_signal_idler_iterator())),
     }
+  }
+
+  fn into_signal_idler_par_iterator(
+    self,
+  ) -> impl rayon::iter::ParallelIterator<Item = (Frequency, Frequency)> {
+    // This is a bit of a hack to get around the fact that we can't return a
+    // ParallelIterator directly from a method. So collect all frequency pairs
+    // into a Vec and then return a ParallelIterator over that Vec.
+    fn collect<T: IntoSignalIdlerIterator>(iter: T) -> Vec<(Frequency, Frequency)> {
+      iter.into_signal_idler_par_iterator().collect::<Vec<_>>()
+    }
+
+    let arr = match self {
+      SIRange::FrequencySpace(fs) => collect(fs.0),
+      SIRange::FrequencyArray(fa) => collect(fa.0),
+      SIRange::Wavelength(ws) => collect(ws.0),
+      SIRange::WavelengthArray(wa) => collect(wa.0),
+      SIRange::SumDiffFrequency(sdfs) => collect(sdfs.0),
+    };
+
+    arr.into_par_iter()
   }
 }
 

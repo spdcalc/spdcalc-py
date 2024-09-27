@@ -1,5 +1,6 @@
 from spdcalc import *
 import pathlib
+import time
 basedir = pathlib.Path(__file__).parent.resolve()
 
 def get_spdc():
@@ -38,6 +39,15 @@ grid = spdc.optimum_range(100)
 # print(get_jsi(spdc, spdc.optimum_range(100).to_wavelength_space()))
 # print(get_jsi.__doc__)
 # print(spdc.delta_k(spdc.signal_frequency_hz, spdc.idler_frequency_hz))
+spectrum = spdc.joint_spectrum()
+print("shmidt", spectrum.schmidt_number(grid))
+print("HOM 2 source visibilities")
 print(spdc.hom_two_source_visibilities(grid.set_resolution(10), Integrator.default()))
-time_steps = [x * 1e-15 for x in range(2000, 3000, 10)]
-print(spdc.hom_rate_series(time_steps, grid.set_resolution(10)))
+
+print("HOM Series")
+spdc = SPDC.default()
+time_steps = [x * 1e-15 for x in range(-400, 800, 50)]
+start_time = time.time()
+rates = spdc.hom_rate_series(time_steps, grid.set_resolution(500))
+print("took:", time.time() - start_time, "s")
+print(rates)
