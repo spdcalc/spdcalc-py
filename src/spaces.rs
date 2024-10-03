@@ -135,7 +135,7 @@ impl FrequencySpace {
   ///
   /// Returns
   /// -------
-  /// FrequencySpace
+  /// :class:`FrequencySpace`
   ///     New FrequencySpace object
   #[new]
   pub fn new(xsteps: (f64, f64, usize), ysteps: (f64, f64, usize)) -> Self {
@@ -155,7 +155,7 @@ impl FrequencySpace {
   ///
   /// Returns
   /// -------
-  /// FrequencySpace
+  /// :class:`FrequencySpace`
   ///     Converted FrequencySpace object
   #[staticmethod]
   pub fn from_wavelength_space(ws: &WavelengthSpace) -> Self {
@@ -166,7 +166,7 @@ impl FrequencySpace {
   ///
   /// Returns
   /// -------
-  /// WavelengthSpace
+  /// :class:`WavelengthSpace`
   ///     Converted WavelengthSpace object
   pub fn to_wavelength_space(&self) -> WavelengthSpace {
     WavelengthSpace(self.0.into())
@@ -181,7 +181,7 @@ impl FrequencySpace {
   ///
   /// Returns
   /// -------
-  /// FrequencySpace
+  /// :class:`FrequencySpace`
   ///     Converted FrequencySpace object
   #[staticmethod]
   pub fn from_sum_diff_frequency_space(sdfs: &SumDiffFrequencySpace) -> Self {
@@ -192,7 +192,7 @@ impl FrequencySpace {
   ///
   /// Returns
   /// -------
-  /// SumDiffFrequencySpace
+  /// :class:`SumDiffFrequencySpace`
   ///     Converted SumDiffFrequencySpace object
   pub fn to_sum_diff_frequency_space(&self) -> SumDiffFrequencySpace {
     SumDiffFrequencySpace(self.0.into())
@@ -207,7 +207,7 @@ impl FrequencySpace {
   ///
   /// Returns
   /// -------
-  /// FrequencySpace
+  /// :class:`FrequencySpace`
   ///     Updated FrequencySpace object
   pub fn set_resolution(mut slf: PyRefMut<'_, Self>, steps: usize) -> PyRefMut<'_, Self> {
     slf.0.set_resolution(steps);
@@ -218,7 +218,7 @@ impl FrequencySpace {
   ///
   /// Returns
   /// -------
-  /// list
+  /// `list`
   pub fn x_values(&self) -> Vec<f64> {
     ::spdcalc::utils::Steps::from(self.0.as_steps().0)
       .into_iter()
@@ -230,7 +230,7 @@ impl FrequencySpace {
   ///
   /// Returns
   /// -------
-  /// list
+  /// `list`
   pub fn y_values(&self) -> Vec<f64> {
     ::spdcalc::utils::Steps::from(self.0.as_steps().1)
       .into_iter()
@@ -242,7 +242,7 @@ impl FrequencySpace {
   ///
   /// Returns
   /// -------
-  /// str
+  /// `str`
   ///     String representation of the FrequencySpace
   pub fn __repr__(&self) -> String {
     let steps = self.0.steps();
@@ -282,7 +282,7 @@ impl WavelengthSpace {
   ///
   /// Returns
   /// -------
-  /// WavelengthSpace
+  /// :class:`WavelengthSpace`
   ///     New WavelengthSpace object
   #[new]
   pub fn new(xsteps: (f64, f64, usize), ysteps: (f64, f64, usize)) -> Self {
@@ -302,7 +302,7 @@ impl WavelengthSpace {
   ///
   /// Returns
   /// -------
-  /// WavelengthSpace
+  /// :class:`WavelengthSpace`
   ///     Converted WavelengthSpace object
   #[staticmethod]
   pub fn from_frequency_space(fs: &FrequencySpace) -> Self {
@@ -313,7 +313,7 @@ impl WavelengthSpace {
   ///
   /// Returns
   /// -------
-  /// FrequencySpace
+  /// :class:`FrequencySpace`
   ///     Converted FrequencySpace object
   pub fn to_frequency_space(&self) -> FrequencySpace {
     FrequencySpace(self.0.into())
@@ -328,7 +328,7 @@ impl WavelengthSpace {
   ///
   /// Returns
   /// -------
-  /// WavelengthSpace
+  /// :class:`WavelengthSpace`
   ///     Converted WavelengthSpace object
   #[staticmethod]
   pub fn from_sum_diff_frequency_space(sdfs: &SumDiffFrequencySpace) -> Self {
@@ -339,7 +339,7 @@ impl WavelengthSpace {
   ///
   /// Returns
   /// -------
-  /// SumDiffFrequencySpace
+  /// :class:`SumDiffFrequencySpace`
   ///     Converted SumDiffFrequencySpace object
   pub fn to_sum_diff_frequency_space(&self) -> SumDiffFrequencySpace {
     SumDiffFrequencySpace(self.0.into())
@@ -354,7 +354,7 @@ impl WavelengthSpace {
   ///
   /// Returns
   /// -------
-  /// WavelengthSpace
+  /// :class:`WavelengthSpace`
   ///     Updated WavelengthSpace object
   pub fn set_resolution(mut slf: PyRefMut<'_, Self>, steps: usize) -> PyRefMut<'_, Self> {
     slf.0.set_resolution(steps);
@@ -365,7 +365,7 @@ impl WavelengthSpace {
   ///
   /// Returns
   /// -------
-  /// list
+  /// `list`
   pub fn x_values(&self) -> Vec<f64> {
     ::spdcalc::utils::Steps::from(self.0.as_steps().0)
       .into_iter()
@@ -377,7 +377,7 @@ impl WavelengthSpace {
   ///
   /// Returns
   /// -------
-  /// list
+  /// `list`
   pub fn y_values(&self) -> Vec<f64> {
     ::spdcalc::utils::Steps::from(self.0.as_steps().1)
       .into_iter()
@@ -389,7 +389,7 @@ impl WavelengthSpace {
   ///
   /// Returns
   /// -------
-  /// str
+  /// `str`
   ///     String representation of the WavelengthSpace
   pub fn __repr__(&self) -> String {
     let steps = self.0.steps();
@@ -514,7 +514,7 @@ impl SumDiffFrequencySpace {
   ///
   /// Returns
   /// -------
-  /// list
+  /// `list`
   pub fn x_values(&self) -> Vec<f64> {
     ::spdcalc::utils::Steps::from(self.0.as_steps().0)
       .into_iter()
@@ -526,7 +526,7 @@ impl SumDiffFrequencySpace {
   ///
   /// Returns
   /// -------
-  /// list
+  /// `list`
   pub fn y_values(&self) -> Vec<f64> {
     ::spdcalc::utils::Steps::from(self.0.as_steps().1)
       .into_iter()
@@ -538,7 +538,7 @@ impl SumDiffFrequencySpace {
   ///
   /// Returns
   /// -------
-  /// str
+  /// `str`
   ///     String representation of the SumDiffFrequencySpace
   pub fn __repr__(&self) -> String {
     let steps = self.0.steps();
@@ -576,7 +576,7 @@ impl FrequencyArray {
   ///
   /// Returns
   /// -------
-  /// FrequencyArray
+  /// :class:`FrequencyArray`
   ///     New FrequencyArray object
   #[new]
   pub fn new(frequencies: Vec<f64>) -> Self {
@@ -589,7 +589,7 @@ impl FrequencyArray {
   ///
   /// Returns
   /// -------
-  /// str
+  /// `str`
   ///     String representation of the FrequencyArray
   pub fn __repr__(&self) -> String {
     format!("{:?}", self.0)
@@ -599,7 +599,7 @@ impl FrequencyArray {
   ///
   /// Returns
   /// -------
-  /// list
+  /// `list`
   pub fn x_values(&self) -> Vec<f64> {
     self
       .0
@@ -614,7 +614,7 @@ impl FrequencyArray {
   ///
   /// Returns
   /// -------
-  /// list
+  /// `list`
   pub fn y_values(&self) -> Vec<f64> {
     self
       .0
@@ -662,7 +662,7 @@ impl WavelengthArray {
   ///
   /// Returns
   /// -------
-  /// list
+  /// `list`
   pub fn x_values(&self) -> Vec<f64> {
     self.0 .0.iter().step_by(2).map(|&x| *(x / M)).collect()
   }
@@ -671,7 +671,7 @@ impl WavelengthArray {
   ///
   /// Returns
   /// -------
-  /// list
+  /// `list`
   pub fn y_values(&self) -> Vec<f64> {
     self
       .0

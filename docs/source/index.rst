@@ -12,7 +12,7 @@ SPDCalc Python Package Documentation
   quickstart
   api
 
-  Repo <https://github.com/spdcalc/spdcalc-py>
+  GitHub Repo <https://github.com/spdcalc/spdcalc-py>
   Changelog <https://github.com/spdcalc/spdcalc-py/releases>
   PyPI <https://pypi.org/project/spdcalc-py>
 

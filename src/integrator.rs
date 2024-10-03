@@ -38,7 +38,7 @@ impl Integrator {
   ///
   /// Returns
   /// -------
-  /// `Integrator`
+  /// :class:`Integrator`
   ///     The integrator
   #[staticmethod]
   #[pyo3(signature = (divs=None))]
@@ -58,7 +58,7 @@ impl Integrator {
   ///
   /// Returns
   /// -------
-  /// `Integrator`
+  /// :class:`Integrator`
   ///     The integrator
   #[staticmethod]
   #[pyo3(signature = (tolerance=None, max_depth=None))]
@@ -82,7 +82,7 @@ impl Integrator {
   ///
   /// Returns
   /// -------
-  /// `Integrator`
+  /// :class:`Integrator`
   ///     The integrator
   #[staticmethod]
   #[pyo3(signature = (tolerance=None, max_depth=None))]
@@ -104,7 +104,7 @@ impl Integrator {
   ///
   /// Returns
   /// -------
-  /// `Integrator`
+  /// :class:`Integrator`
   ///     The integrator
   #[staticmethod]
   #[pyo3(signature = (degree=None))]
@@ -122,7 +122,7 @@ impl Integrator {
   ///
   /// Returns
   /// -------
-  /// `Integrator`
+  /// :class:`Integrator`
   ///     The integrator
   #[staticmethod]
   #[pyo3(signature = (tolerance=None))]

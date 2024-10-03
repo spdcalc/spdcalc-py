@@ -3,14 +3,13 @@ use pyo3::exceptions::PyRuntimeError;
 use spdcalc::dim::ucum::*;
 use spdcalc::Complex;
 
-
 /// Represents the joint spectrum of an SPDC process
 ///
 /// This class has methods to calculate the joint spectral amplitude (JSA),
 /// joint spectral intensity (JSI), and normalized JSA and JSI.
 ///
-/// NOTE: The easiest way to create this is to use the `joint_spectrum` method
-/// on a [`SPDC`] object.
+/// NOTE: The easiest way to create this is to use the :func:`SPDC.joint_spectrum` method
+/// on a :class:`SPDC` object.
 #[pyclass]
 #[derive(Debug, Clone)]
 pub(crate) struct JointSpectrum(pub(crate) ::spdcalc::JointSpectrum);
@@ -28,7 +27,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// JointSpectrum
+  /// :class:`JointSpectrum`
   ///     The new JointSpectrum instance
   #[new]
   pub fn new(spdc: SPDC, integrator: Integrator) -> PyResult<Self> {
@@ -46,7 +45,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// complex
+  /// `complex`
   ///     The JSA value
   pub fn jsa(&self, omega_s_hz: f64, omega_i_hz: f64) -> Complex<f64> {
     self.0.jsa(omega_s_hz * RAD * HZ, omega_i_hz * RAD * HZ)
@@ -61,7 +60,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// list of complex
+  /// `list` of `complex`
   ///     Vector of JSA values
   pub fn jsa_range(&self, si_range: SIRange) -> Vec<Complex<f64>> {
     self.0.jsa_range(si_range)
@@ -78,7 +77,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// complex
+  /// `complex`
   ///     The normalized JSA value
   pub fn jsa_normalized(&self, omega_s_hz: f64, omega_i_hz: f64) -> Complex<f64> {
     self
@@ -95,7 +94,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// list of complex
+  /// `list` of `complex`
   ///     Vector of normalized JSA values
   pub fn jsa_normalized_range(&self, si_range: SIRange) -> Vec<Complex<f64>> {
     self.0.jsa_normalized_range(si_range)
@@ -112,7 +111,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// float
+  /// `float`
   ///     The JSI value
   pub fn jsi(&self, omega_s_hz: f64, omega_i_hz: f64) -> f64 {
     *(self.0.jsi(omega_s_hz * RAD * HZ, omega_i_hz * RAD * HZ) / spdcalc::JSIUnits::new(1.))
@@ -127,7 +126,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// list of float
+  /// `list` of `float`
   ///     Vector of JSI values
   pub fn jsi_range(&self, si_range: SIRange) -> Vec<f64> {
     self
@@ -149,7 +148,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// float
+  /// `float`
   ///     The normalized JSI value
   pub fn jsi_normalized(&self, omega_s_hz: f64, omega_i_hz: f64) -> f64 {
     self
@@ -166,7 +165,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// list of float
+  /// `list` of `float`
   ///     Vector of normalized JSI values
   pub fn jsi_normalized_range(&self, si_range: SIRange) -> Vec<f64> {
     self.0.jsi_normalized_range(si_range)
@@ -183,7 +182,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// float
+  /// `float`
   ///     The singles JSI value
   pub fn jsi_singles(&self, omega_s_hz: f64, omega_i_hz: f64) -> f64 {
     *(self
@@ -201,7 +200,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// list of float
+  /// `list` of `float`
   ///     Vector of singles JSI values
   pub fn jsi_singles_range(&self, si_range: SIRange) -> Vec<f64> {
     self
@@ -223,7 +222,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// float
+  /// `float`
   ///     The normalized singles JSI value
   pub fn jsi_singles_normalized(&self, omega_s_hz: f64, omega_i_hz: f64) -> f64 {
     self
@@ -240,7 +239,7 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// list of float
+  /// `list` of `float`
   ///     Vector of normalized singles JSI values
   pub fn jsi_singles_normalized_range(&self, si_range: SIRange) -> Vec<f64> {
     self.0.jsi_singles_normalized_range(si_range)
@@ -255,11 +254,16 @@ impl JointSpectrum {
   ///
   /// Returns
   /// -------
-  /// float
+  /// `float`
   ///     The Schmidt number
   pub fn schmidt_number(&self, si_range: SIRange) -> PyResult<f64> {
     let fs = ::spdcalc::FrequencySpace::try_from(si_range)?;
-    Ok(self.0.schmidt_number(fs).map_err(|e| PyRuntimeError::new_err(e.to_string()))?)
+    Ok(
+      self
+        .0
+        .schmidt_number(fs)
+        .map_err(|e| PyRuntimeError::new_err(e.to_string()))?,
+    )
   }
 }
 

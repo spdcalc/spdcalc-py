@@ -475,11 +475,19 @@ impl SPDC {
   /// Get the poling domains
   ///
   /// They are a list of fractions of poling period
+  ///
+  /// Returns
+  /// -------
+  /// `List[Tuple[float, float]]`
   pub fn poling_domains(&self) -> Vec<(f64, f64)> {
     self.0.pp.poling_domains(self.0.crystal_setup.length)
   }
 
   /// Get the poling domains as lengths in meters
+  ///
+  /// Returns
+  /// -------
+  /// `List[Tuple[float, float]]`
   pub fn poling_domain_lengths_m(&self) -> Vec<(f64, f64)> {
     self
       .0
@@ -546,7 +554,7 @@ impl SPDC {
   ///
   /// Returns
   /// -------
-  /// tuple of floats
+  /// `tuple` of `float`
   pub fn delta_k(
     &self,
     signal_frequency_rad_per_s: f64,
@@ -571,7 +579,7 @@ impl SPDC {
   ///
   /// Returns
   /// -------
-  /// float
+  /// `float`
   ///     The coincidence counts
   #[pyo3(signature = (si_range, integrator = None))]
   pub fn counts_coincidences(
@@ -597,7 +605,7 @@ impl SPDC {
   ///
   /// Returns
   /// -------
-  /// float
+  /// `float`
   ///     The singles rate for the signal
   #[pyo3(signature = (si_range, integrator = None))]
   pub fn counts_singles_signal(
@@ -623,7 +631,7 @@ impl SPDC {
   ///
   /// Returns
   /// -------
-  /// float
+  /// `float`
   ///     The singles rate for the idler
   #[pyo3(signature = (si_range, integrator = None))]
   pub fn counts_singles_idler(
@@ -649,7 +657,7 @@ impl SPDC {
   ///
   /// Returns
   /// -------
-  /// dict
+  /// `dict`
   ///     The efficiencies (symmetric, signal, idler), and rates (coincidences, singles signal, singles idler)
   #[pyo3(signature = (si_range, integrator = None))]
   pub fn efficiencies(
@@ -679,7 +687,7 @@ impl SPDC {
   ///
   /// Returns
   /// -------
-  /// dict
+  /// `dict`
   ///     The Hong-Ou-Mandel visibility
   #[pyo3(signature = (si_range, integrator = None))]
   pub fn hom_visibility(
@@ -711,7 +719,7 @@ impl SPDC {
   ///
   /// Returns
   /// -------
-  /// list of floats
+  /// `list` of `float`
   ///     The Hong-Ou-Mandel rate for different time delays
   #[pyo3(signature = (time_delays, si_range, integrator = None))]
   pub fn hom_rate_series(
@@ -740,7 +748,7 @@ impl SPDC {
   ///
   /// Returns
   /// -------
-  /// dict
+  /// `dict`
   ///     The two-source Hong-Ou-Mandel visibilities
   #[pyo3(signature = (si_range, integrator = None))]
   pub fn hom_two_source_visibilities(
@@ -780,7 +788,7 @@ impl SPDC {
   ///
   /// Returns
   /// -------
-  /// dict
+  /// `dict`
   ///     The two-source Hong-Ou-Mandel rate series
   #[pyo3(signature = (time_delays, si_range, integrator = None))]
   pub fn hom_two_source_rate_series(
@@ -810,7 +818,7 @@ impl SPDC {
   ///
   /// Returns
   /// -------
-  /// :func:`spdcalc.spdcalc.JointSpectrum`
+  /// :class:`JointSpectrum`
   ///     The joint spectrum object
   #[pyo3(signature = (integrator = None))]
   pub fn joint_spectrum(&self, integrator: Option<Integrator>) -> JointSpectrum {
