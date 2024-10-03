@@ -34,3 +34,14 @@ run_maturin: install_requirements
 run_example: run_maturin
   source {{pyenv_name}}/bin/activate && \
   {{pyenv_name}}/bin/python3 py-examples/simple.py
+
+crystals: run_maturin
+  source {{pyenv_name}}/bin/activate && \
+  {{pyenv_name}}/bin/python3 py-examples/all-crystals.py > docs/source/crystals.txt
+
+# create sphinx docs
+docs: run_maturin crystals
+  source {{pyenv_name}}/bin/activate && \
+  pip install -r docs/requirements.txt && \
+  cd docs && \
+  make html

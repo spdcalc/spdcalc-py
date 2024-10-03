@@ -63,6 +63,8 @@ impl SPDC {
 
   // Getters and setters
 
+  // TODO: add docs about custom crystals
+
   /// The type of crystal used in the SPDC process
   ///
   /// The values can be seen by looking at the `id` feilds from `get_all_crystal_meta()`
@@ -808,8 +810,8 @@ impl SPDC {
   ///
   /// Returns
   /// -------
-  /// JointSpectrum
-  ///     The joint spectrum
+  /// :func:`spdcalc.spdcalc.JointSpectrum`
+  ///     The joint spectrum object
   #[pyo3(signature = (integrator = None))]
   pub fn joint_spectrum(&self, integrator: Option<Integrator>) -> JointSpectrum {
     self

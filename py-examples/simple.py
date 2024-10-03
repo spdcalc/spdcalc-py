@@ -1,14 +1,17 @@
 from spdcalc import *
+import plotly.graph_objects as go
+import numpy as np
 import pathlib
 import time
 basedir = pathlib.Path(__file__).parent.resolve()
 
 def get_spdc():
     path = basedir / "settings.yaml"
-    with open(path, 'r') as f:
-        config = f.read()
+    f = open(path, "r")
+    config = f.read()
     return SPDC.from_yaml(config)
 
+print(SPDC.default())
 # help(SPDC)
 # print(get_all_crystal_meta())
 spdc = get_spdc()
@@ -51,3 +54,23 @@ start_time = time.time()
 rates = spdc.hom_rate_series(time_steps, grid.set_resolution(500))
 print("took:", time.time() - start_time, "s")
 print(rates)
+
+grid = spdc.optimum_range(100).to_wavelength_space()
+jsi = get_jsi(spdc, grid)
+jsi = np.reshape(jsi, (100, 100))
+x_values = np.array(grid.x_values()) * 1e9
+y_values = np.array(grid.y_values()) * 1e9
+
+fig = go.Figure(data=go.Heatmap(
+  z=jsi,
+  x=x_values,
+  y=y_values
+))
+
+fig.update_layout(
+  title='Joint Spectrum Intensity',
+  xaxis_title='Signal Frequency (nm)',
+  yaxis_title='Idler Frequency (nm)',
+)
+
+fig.show()
