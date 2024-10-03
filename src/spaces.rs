@@ -214,6 +214,30 @@ impl FrequencySpace {
     slf
   }
 
+  /// Get a list of x-axis values
+  ///
+  /// Returns
+  /// -------
+  /// list
+  pub fn x_values(&self) -> Vec<f64> {
+    ::spdcalc::utils::Steps::from(self.0.as_steps().0)
+      .into_iter()
+      .map(|x| *(x / RAD / HZ))
+      .collect()
+  }
+
+  /// Get a list of y-axis values
+  ///
+  /// Returns
+  /// -------
+  /// list
+  pub fn y_values(&self) -> Vec<f64> {
+    ::spdcalc::utils::Steps::from(self.0.as_steps().1)
+      .into_iter()
+      .map(|y| *(y / RAD / HZ))
+      .collect()
+  }
+
   /// String representation of FrequencySpace
   ///
   /// Returns
@@ -335,6 +359,30 @@ impl WavelengthSpace {
   pub fn set_resolution(mut slf: PyRefMut<'_, Self>, steps: usize) -> PyRefMut<'_, Self> {
     slf.0.set_resolution(steps);
     slf
+  }
+
+  /// Get a list of x-axis values
+  ///
+  /// Returns
+  /// -------
+  /// list
+  pub fn x_values(&self) -> Vec<f64> {
+    ::spdcalc::utils::Steps::from(self.0.as_steps().0)
+      .into_iter()
+      .map(|x| *(x / M))
+      .collect()
+  }
+
+  /// Get a list of y-axis values
+  ///
+  /// Returns
+  /// -------
+  /// list
+  pub fn y_values(&self) -> Vec<f64> {
+    ::spdcalc::utils::Steps::from(self.0.as_steps().1)
+      .into_iter()
+      .map(|y| *(y / M))
+      .collect()
   }
 
   /// String representation of WavelengthSpace
@@ -462,6 +510,30 @@ impl SumDiffFrequencySpace {
     slf
   }
 
+  /// Get a list of x-axis values
+  ///
+  /// Returns
+  /// -------
+  /// list
+  pub fn x_values(&self) -> Vec<f64> {
+    ::spdcalc::utils::Steps::from(self.0.as_steps().0)
+      .into_iter()
+      .map(|x| *(x / RAD / HZ))
+      .collect()
+  }
+
+  /// Get a list of y-axis values
+  ///
+  /// Returns
+  /// -------
+  /// list
+  pub fn y_values(&self) -> Vec<f64> {
+    ::spdcalc::utils::Steps::from(self.0.as_steps().1)
+      .into_iter()
+      .map(|y| *(y / RAD / HZ))
+      .collect()
+  }
+
   /// String representation of SumDiffFrequencySpace
   ///
   /// Returns
@@ -522,6 +594,37 @@ impl FrequencyArray {
   pub fn __repr__(&self) -> String {
     format!("{:?}", self.0)
   }
+
+  /// Get a list of x-axis values
+  ///
+  /// Returns
+  /// -------
+  /// list
+  pub fn x_values(&self) -> Vec<f64> {
+    self
+      .0
+       .0
+      .iter()
+      .step_by(2)
+      .map(|&x| *(x / RAD / HZ))
+      .collect()
+  }
+
+  /// Get a list of y-axis values
+  ///
+  /// Returns
+  /// -------
+  /// list
+  pub fn y_values(&self) -> Vec<f64> {
+    self
+      .0
+       .0
+      .iter()
+      .skip(1)
+      .step_by(2)
+      .map(|&y| *(y / RAD / HZ))
+      .collect()
+  }
 }
 
 impl From<::spdcalc::SignalIdlerFrequencyArray> for FrequencyArray {
@@ -553,6 +656,31 @@ impl WavelengthArray {
     Self(::spdcalc::SignalIdlerWavelengthArray(
       wavelengths.into_iter().map(|w| w * M).collect(),
     ))
+  }
+
+  /// Get a list of x-axis values
+  ///
+  /// Returns
+  /// -------
+  /// list
+  pub fn x_values(&self) -> Vec<f64> {
+    self.0 .0.iter().step_by(2).map(|&x| *(x / M)).collect()
+  }
+
+  /// Get a list of y-axis values
+  ///
+  /// Returns
+  /// -------
+  /// list
+  pub fn y_values(&self) -> Vec<f64> {
+    self
+      .0
+       .0
+      .iter()
+      .skip(1)
+      .step_by(2)
+      .map(|&y| *(y / M))
+      .collect()
   }
 
   pub fn __repr__(&self) -> String {
