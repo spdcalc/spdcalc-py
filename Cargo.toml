@@ -13,7 +13,5 @@ pyo3 = { version = "0.22.2", features = ["num-complex"] }
 serde_json = "1.0"
 serde_yaml = "0.9"
 rayon = "1.10"
-spdcalc = { git = "https://github.com/kshalm/spdcalc", branch = "v2.0", features = [
-  "pyo3",
-] }
+spdcalc = { version = "2.0", features = ["pyo3"] }
 # spdcalc = { path = "../spdcalc", features = ["pyo3"] }
