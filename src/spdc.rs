@@ -174,21 +174,15 @@ impl SPDC {
     self.0.pump.set_frequency(value * RAD / S);
   }
 
-  /// The pump waist in nanometers (x, y)
+  /// The pump waist in nanometers
   #[getter]
-  pub fn pump_waist_nm(&self) -> (f64, f64) {
-    (
-      *(self.0.pump.waist().x / NANO / M),
-      *(self.0.pump.waist().y / NANO / M),
-    )
+  pub fn pump_waist_nm(&self) -> f64 {
+    *(self.0.pump.waist().x / NANO / M)
   }
 
   #[setter]
-  pub fn set_pump_waist_nm(&mut self, value: (f64, f64)) {
-    self
-      .0
-      .pump
-      .set_waist((value.0 * NANO * M, value.1 * NANO * M));
+  pub fn set_pump_waist_nm(&mut self, value: f64) {
+    self.0.pump.set_waist(value * NANO * M);
   }
 
   /// The pump spectral bandwidth in nanometers
@@ -288,19 +282,13 @@ impl SPDC {
 
   /// The signal waist in nanometers (x, y)
   #[getter]
-  pub fn signal_waist_um(&self) -> (f64, f64) {
-    (
-      *(self.0.signal.waist().x / MICRO / M),
-      *(self.0.signal.waist().y / MICRO / M),
-    )
+  pub fn signal_waist_um(&self) -> f64 {
+    *(self.0.signal.waist().x / MICRO / M)
   }
 
   #[setter]
-  pub fn set_signal_waist_um(&mut self, value: (f64, f64)) {
-    self
-      .0
-      .signal
-      .set_waist((value.0 * MICRO * M, value.1 * MICRO * M));
+  pub fn set_signal_waist_um(&mut self, value: f64) {
+    self.0.signal.set_waist(value * MICRO * M);
   }
 
   /// The signal waist position in micrometers
@@ -374,21 +362,15 @@ impl SPDC {
       .set_theta_external(value * DEG, &self.0.crystal_setup);
   }
 
-  /// The idler waist in nanometers (x, y)
+  /// The idler waist in nanometers
   #[getter]
-  pub fn idler_waist_um(&self) -> (f64, f64) {
-    (
-      *(self.0.idler.waist().x / MICRO / M),
-      *(self.0.idler.waist().y / MICRO / M),
-    )
+  pub fn idler_waist_um(&self) -> f64 {
+    *(self.0.idler.waist().x / MICRO / M)
   }
 
   #[setter]
-  pub fn set_idler_waist_um(&mut self, value: (f64, f64)) {
-    self
-      .0
-      .idler
-      .set_waist((value.0 * MICRO * M, value.1 * MICRO * M));
+  pub fn set_idler_waist_um(&mut self, value: f64) {
+    self.0.idler.set_waist(value * MICRO * M);
   }
 
   /// The idler waist position in micrometers
