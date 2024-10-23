@@ -149,7 +149,7 @@ jobs:
           name: wheels-sdist
           path: dist
 
-  release-please:
+  release_please:
     name: Execute release chores
     needs: [linux, musllinux, windows, macos, sdist]
     permissions:
@@ -157,7 +157,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     outputs:
-      created: ${{ steps.release.outputs.release_created }}
+      release: ${{ steps.release.outputs.release_created }}
     steps:
       - uses: googleapis/release-please-action@v4
         id: release
@@ -167,8 +167,8 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    if: ${{ needs.release-please.outputs.created }}
-    needs: [release-please]
+    if: ${{ needs.release_please.outputs.release }}
+    needs: [release_please]
     environment: release
     permissions:
       id-token: write
