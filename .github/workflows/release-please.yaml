@@ -157,15 +157,14 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     outputs:
-      release: ${{ steps.release.outputs.release_created }}
+      release_created: ${{ steps.release-flag.outputs.release_created }}
     steps:
       - uses: googleapis/release-please-action@v4
         id: release
         with:
           release-type: rust
-      - name: Check if release created
-        run: echo "Release created ${{ steps.release.outputs.release_created }}"
-        id: check_release
+      - id: release-flag
+        run: echo "release_created=${{ steps.release.outputs.release_created || false }}" >> $GITHUB_OUTPUT
 
   debug:
     name: Debug
@@ -173,11 +172,11 @@ jobs:
     needs: [release_please]
     steps:
       - name: Is there a release?
-        run: echo ${{ needs.release_please.outputs.release }}
+        run: echo ${{ needs.release_please.outputs.release_created }}
   release:
     name: Release
     runs-on: ubuntu-latest
-    if: ${{ needs.release_please.outputs.release }}
+    if: ${{ needs.release_please.outputs.release_created == 'true'}}
     needs: [release_please]
     environment: release
     permissions:
