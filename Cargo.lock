@@ -1003,7 +1003,7 @@ dependencies = [
 
 [[package]]
 name = "spdcalc-py"
-version = "1.0.0-alpha.4"
+version = "2.0.0-alpha.4"
 dependencies = [
  "pyo3",
  "rayon",
