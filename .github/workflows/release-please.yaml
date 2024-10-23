@@ -164,6 +164,13 @@ jobs:
         with:
           release-type: rust
 
+  debug:
+    name: Debug
+    runs-on: ubuntu-latest
+    needs: [release_please]
+    steps:
+      - name: Is there a release?
+        run: echo ${{ needs.release_please.outputs.release }}
   release:
     name: Release
     runs-on: ubuntu-latest
