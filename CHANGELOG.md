@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.0.0-alpha.4](https://github.com/spdcalc/spdcalc-py/compare/v1.0.0-alpha.4...v2.0.0-alpha.4) (2024-10-23)
+## [1.0.1](https://github.com/spdcalc/spdcalc-py/compare/v1.0.0-alpha.4...v1.0.1) (2024-10-23)
 
 
 ### ⚠ BREAKING CHANGES
