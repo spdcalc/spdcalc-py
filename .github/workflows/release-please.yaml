@@ -163,6 +163,9 @@ jobs:
         id: release
         with:
           release-type: rust
+      - name: Check if release created
+        run: echo "Release created ${{ steps.release.outputs.release_created }}"
+        id: check_release
 
   debug:
     name: Debug
