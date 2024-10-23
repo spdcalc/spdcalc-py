@@ -17,7 +17,7 @@ use spdcalc::{
   Complex, CrystalMeta, CrystalType, JsiNorm, JsiSinglesNorm, PerMeter3, PerMeter4,
 };
 
-/// Get the normalized joint spectral intensity of the SPDC within a given range
+/// Get the normalized joint spectral intensity of the SPDC setup within a given range
 ///
 /// Parameters
 /// ----------
