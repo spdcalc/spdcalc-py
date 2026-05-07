@@ -280,7 +280,7 @@ impl SPDC {
       .set_theta_external(value * DEG, &self.0.crystal_setup);
   }
 
-  /// The signal waist in nanometers (x, y)
+  /// The signal waist in micrometers (x, y)
   #[getter]
   pub fn signal_waist_um(&self) -> f64 {
     *(self.0.signal.waist().x / MICRO / M)
