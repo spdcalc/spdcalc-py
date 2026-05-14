@@ -174,7 +174,7 @@ impl SPDC {
     self.0.pump.set_frequency(value * RAD / S);
   }
 
-  /// The pump waist in nanometers
+  /// The pump waist in microns
   #[getter]
   pub fn pump_waist_nm(&self) -> f64 {
     *(self.0.pump.waist().x / NANO / M)
@@ -280,7 +280,7 @@ impl SPDC {
       .set_theta_external(value * DEG, &self.0.crystal_setup);
   }
 
-  /// The signal waist in nanometers (x, y)
+  /// The signal waist in microns (x, y)
   #[getter]
   pub fn signal_waist_um(&self) -> f64 {
     *(self.0.signal.waist().x / MICRO / M)
@@ -362,7 +362,7 @@ impl SPDC {
       .set_theta_external(value * DEG, &self.0.crystal_setup);
   }
 
-  /// The idler waist in nanometers
+  /// The idler waist in microns
   #[getter]
   pub fn idler_waist_um(&self) -> f64 {
     *(self.0.idler.waist().x / MICRO / M)
